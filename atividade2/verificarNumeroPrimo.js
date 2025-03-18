@@ -5,12 +5,19 @@
 
 // Função para verificar se um número é primo
 function verificarNumeroPrimo(n) {
-    // PRIMEIRA CONDIÇÃO: 1 e 0 não são primos
-    if (n < 2) return false; 
+    // PRIMEIRA CONDIÇÃO: 1 e 0 não são primos, nem números engativos
+    if (n < 2){
+       return false; 
+    }
     // SEGUNDA CONDIÇÃO: 2 é o único número par que é primo
-    if (n == 2) return true; 
+    if (n <= 3){
+      return true; 
+    }
      // TERCEIRA CONDIÇÃO: números pares não são números primos
-    if (n % 2 == 0) return false;
+    if (n % 2 == 0){ 
+      return false;
+    }
+
 
     /* UTILIZANDO O FOR
     - Loop responsável por verificar se n é divisivel por algum número ímpar, começando no 3
@@ -19,10 +26,13 @@ function verificarNumeroPrimo(n) {
       -> Números primos não possuem raíz exata
     - [i += 2] - pulando os números pares 
     */
-    for (let i = 3; i <= Math.sqrt(n); i += 2) {
-        if (n % i == 0) return false;
-    }
 
+    //esta correção verifica os números até n, sem o crivo de Eratóstenes
+    for (let i = 3; i < n; i += 2) {
+        if (n % i == 0){
+           return false;
+    }
+  }
     return true; 
 }
 
