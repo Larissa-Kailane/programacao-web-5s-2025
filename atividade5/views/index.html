@@ -120,6 +120,95 @@
 
         </div>
 
+        
+        // validacao
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', function (event) {
+        const camposObrigatorios = [
+            'nome',
+            'sobrenome',
+            'cpf',
+            'data_nascimento',
+            'telefone',
+            'cep',
+            'endereco',
+            'clinica',
+            'especialidade',
+            'data_consulta',
+            'hora_consulta'
+        ];
+
+        let camposInvalidos = [];
+
+        camposObrigatorios.forEach(id => {
+            const campo = document.getElementById(id);
+            if (!campo || campo.value.trim() === '') {
+                camposInvalidos.push(id);
+            }
+        });
+
+        // Validar se a data da consulta é maior que hoje
+        const dataConsultaInput = document.getElementById('data_consulta');
+        const dataConsulta = new Date(dataConsultaInput.value);
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0); // Zera a hora para comparação justa
+
+        if (dataConsulta <= hoje) {
+            camposInvalidos.push('data_consulta');
+        }
+
+        if (camposInvalidos.length > 0) {
+            event.preventDefault(); // Impede envio do formulário
+            exibirErros(camposInvalidos);
+        }
+    });
+
+    function exibirErros(campos) {
+        let containerErros = document.querySelector('.col-12.mt-3');
+        containerErros.innerHTML = '';
+
+        if (campos.length === 11) {
+            containerErros.innerHTML += `
+                <div class="alert alert-danger">
+                    <strong>Formulário</strong> inválido! Preencha todos os campos.
+                </div>
+            `;
+        }
+
+        campos.forEach(campo => {
+            let nomeCampo = formatarNomeCampo(campo);
+            containerErros.innerHTML += `
+                <div class="alert alert-danger mt-1">
+                    <strong>${nomeCampo}</strong> inválido! Não pode ser vazio ou está incorreto.
+                </div>
+            `;
+        });
+    }
+
+    function formatarNomeCampo(campo) {
+        const nomes = {
+            nome: "Nome",
+            sobrenome: "Sobrenome",
+            cpf: "CPF",
+            data_nascimento: "Data de nascimento",
+            telefone: "Telefone",
+            cep: "CEP",
+            endereco: "Endereço",
+            clinica: "Clínica",
+            especialidade: "Especialidade",
+            data_consulta: "Data da consulta",
+            hora_consulta: "Hora da consulta"
+        };
+        return nomes[campo] || campo;
+    }
+});
+            
+        </script>
+
     </body>
 </html>
 
